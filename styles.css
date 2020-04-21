@@ -25,6 +25,8 @@ h2 {
 	width: 500px;
 }
 
+/* Time Setters */
+
 .timers-container {
 	display: flex;
 	flex-direction: row;
@@ -52,8 +54,10 @@ h2 {
 	margin: 20px 50px;
 	font-size: 2rem;
 	font-weight: bold;
-	color: #EDF060;
+	color: #edf060;
 }
+
+/* Main Timer */
 
 .main-timer-container {
 	width: 500px;
@@ -73,11 +77,11 @@ h2 {
 }
 
 .timer-display {
-	font-size: 5rem;
+	font-size: 5.25rem;
 	font-weight: bolder;
 	text-align: center;
 	margin: 5px auto;
-	color: #EDF060;
+	color: #edf060;
 }
 
 .controls {
@@ -86,20 +90,45 @@ h2 {
 	align-items: stretch;
 	justify-content: center;
 }
-.btns {
+.btn {
 	margin: 0 10px;
 }
 
 /* Footer */
 footer {
-  margin-top: 10rem;
+	margin-top: 10rem;
 }
 
-a:hover{
-  cursor: pointer;
+a:hover {
+	cursor: pointer;
 }
 
 .logo {
-  color: #000;
-  margin: 0 5px;
+	color: #000;
+	margin: 0 5px;
+}
+
+.session-up:hover {
+	cursor: pointer;
+	color: #edf060;
+}
+
+.session-down:hover {
+	cursor: pointer;
+	color: #edf060;
+}
+
+.break-up:hover {
+	cursor: pointer;
+	color: #edf060;
+}
+
+.break-down:hover {
+	cursor: pointer;
+	color: #edf060;
+}
+
+.btn:hover {
+	cursor: pointer;
+	color: #edf060;
 }
