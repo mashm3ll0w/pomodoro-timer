@@ -13,28 +13,32 @@ let playBtn = document.querySelector(".btn-play");
 let pauseBtn = document.querySelector(".btn-pause");
 let resetBtn = document.querySelector(".btn-reset");
 let mainTimer = document.querySelector(".timer-display");
+let currentDisplay = document.querySelector(".main-timer-heading");
 
 // time variables
-let workTime = 100;
-let restTime = 50;
+let workTime = parseInt(sessionTime.textContent) * 60;
+let restTime = parseInt(breakTime.textContent) * 60;
 let id = true;
+mainTimer.innerHTML = `25:00`;
 
-// increase and reduce the session and break times
+// increase and reduce the session time
 increaseSession.addEventListener("click", () => {
 	let time = parseInt(sessionTime.textContent);
-	time += 1;
+	time++;
 	sessionTime.innerHTML = time;
 	if (time < 10) {
 		sessionTime.innerHTML = `0${time}`;
 	} else {
 		sessionTime.innerHTML = `${time}`;
 	}
+	workTime = parseInt(sessionTime.textContent) * 60;
+	mainTimer.innerHTML = `${sessionTime.textContent}:00`;
 });
 
 reduceSession.addEventListener("click", () => {
 	let time = parseInt(sessionTime.textContent);
 	if (time > 1) {
-		time -= 1;
+		time--;
 		sessionTime.innerHTML = `${time}`;
 	}
 	if (time < 10) {
@@ -42,24 +46,27 @@ reduceSession.addEventListener("click", () => {
 	} else {
 		sessionTime.innerHTML = `${time}`;
 	}
+	workTime = parseInt(sessionTime.textContent) * 60;
+	mainTimer.innerHTML = `${sessionTime.textContent}:00`;
 });
 
+// increase and reduce the breaktime
 increaseBreak.addEventListener("click", () => {
 	let time = parseInt(breakTime.textContent);
-	time += 1;
+	time++;
 	breakTime.innerHTML = time;
 	if (time < 10) {
 		breakTime.innerHTML = `0${time}`;
 	} else {
 		breakTime.innerHTML = `${time}`;
 	}
-	restTime = parseInt(breakTime.textContent);
+	restTime = parseInt(breakTime.textContent) * 60;
 });
 
 reduceBreak.addEventListener("click", () => {
 	let time = parseInt(breakTime.textContent);
 	if (time > 1) {
-		time -= 1;
+		time--;
 		breakTime.innerHTML = time;
 	}
 	if (time < 10) {
@@ -67,31 +74,40 @@ reduceBreak.addEventListener("click", () => {
 	} else {
 		breakTime.innerHTML = `${time}`;
 	}
-	restTime = parseInt(breakTime.textContent);
+	restTime = parseInt(breakTime.textContent) * 60;
 });
 
-//Set the main timer to read from the set timers
-//mainTimer.innerHTML = workTime;
+// ----------- event listeners ----------------
 
-//playBtn.addEventListener("click", countDown());
+playBtn.addEventListener("click", countDown);
+pauseBtn.addEventListener("click", pauseTimer);
+resetBtn.addEventListener("click", resetTimers);
+
+// -------- functions --------------
+
+function countDown() {
+	if (id === true) {
+		id = setInterval(timer, 1000);
+	}
+}
 
 function timer() {
 	if (workTime) {
-		let minutes = Math.round(parseInt(workTime) / 60);
-		let seconds = Math.round(parseInt(workTime) % 60);
+		let minutes = Math.floor(parseInt(workTime) / 60);
+		let seconds = Math.floor(parseInt(workTime) % 60);
 		minutes = minutes < 10 ? "0" + minutes : minutes;
 		seconds = seconds < 10 ? "0" + seconds : seconds;
-		workTime -= 1;
+		workTime--;
 		mainTimer.innerHTML = `${minutes}:${seconds}`;
 		if (workTime < 0) {
 			alert("Work Time Expired");
 		}
 	} else {
-		let minutes = Math.round(parseInt(restTime) / 60);
-		let seconds = Math.round(parseInt(restTime) % 60);
+		let minutes = Math.floor(parseInt(restTime) / 60);
+		let seconds = Math.floor(parseInt(restTime) % 60);
 		minutes = minutes < 10 ? "0" + minutes : minutes;
 		seconds = seconds < 10 ? "0" + seconds : seconds;
-		restTime -= 1;
+		restTime--;
 		mainTimer.innerHTML = `${minutes}:${seconds}`;
 		if (restTime < 0) {
 			alert("Break's Over!!");
@@ -100,13 +116,20 @@ function timer() {
 	}
 }
 
-playBtn.addEventListener("click", () => {
-	if (id === true) {
-		id = setInterval(timer, 1000);
-	}
-});
-
-pauseBtn.addEventListener("click", () => {
+function pauseTimer() {
 	clearInterval(id);
 	id = true;
-});
+}
+function resetTimers() {
+	clearInterval(id);
+	id = true;
+	defaultTimes();
+}
+
+function defaultTimes() {
+	workTime = 1500;
+	restTime = 300;
+	sessionTime.innerHTML = parseInt(25);
+	breakTime.innerHTML = "05";
+	mainTimer.innerHTML = `${sessionTime.textContent}:00`;
+}
